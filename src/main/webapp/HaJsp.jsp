@@ -4,14 +4,20 @@
 --%>
 
 <%@page contentType="text/html"%>
+<%@ page import="javax.servlet.http.Cookie" %>
 
 <!doctype html>
 <HTML lang="en">
-<HEAD><TITLE>Cluster - Ha JSP Sample </TITLE></HEAD>
+<HEAD><TITLE><%= System.getProperty("com.sun.aas.instanceName") %> - Ha JSP Sample </TITLE></HEAD>
 <BODY BGCOLOR="white">
 <H1>Cluster - HA JSP Sample </H1>
+
+<FORM ACTION="HaJsp.jsp" method="get" name="Form3" >
+    <INPUT TYPE="submit" NAME="action" VALUE="RELOAD PAGE">
+</FORM>
 <B>HttpSession Information:</B>
 <UL>
+<LI>Context Path:   <b><%= request.getContextPath() %></b></LI>    
 <LI>Served From Server:   <b><%= request.getServerName() %></b></LI>
 <LI>Server Port Number:   <b><%= request.getServerPort() %></b></LI>
 <LI>Executed From Server: <b><%= java.net.InetAddress.getLocalHost().getHostName() %></b></LI>
@@ -21,6 +27,16 @@
 <LI>Session Created:  <%= new java.util.Date(session.getCreationTime())%></LI>
 <LI>Last Accessed:    <%= new java.util.Date(session.getLastAccessedTime())%></LI>
 <LI>Session will go inactive in  <b><%= session.getMaxInactiveInterval() %> seconds</b></LI>
+<%
+    String jsidiname = "JSESSIONIDINSTANCE";
+    String jsidivalue = System.getProperty("com.sun.aas.instanceName");
+    String jsididomain = ".internal.dev";
+    String jsidipath = request.getContextPath();
+    Cookie jsessionIdInstance = new Cookie(jsidiname, jsidivalue);
+    jsessionIdInstance.setDomain(jsididomain);
+    jsessionIdInstance.setPath(jsidipath);
+    response.addCookie(jsessionIdInstance);
+%>
 </UL>
 <BR>
 <B> Enter session attribute data: </B><BR>
@@ -29,14 +45,9 @@
     <INPUT TYPE="text" SIZE="20" NAME="dataName">
     <BR>
     Value of Sesion Attribute: 
-    <INPUT TYPE="text" SIZE="20" NAME="dataValue">
-    <BR>
-    <INPUT TYPE="submit" NAME="action" VALUE="ADD SESSION DATA">
-    <INPUT TYPE="submit" NAME="action" VALUE="RELOAD PAGE">
+    <INPUT TYPE="text" SIZE="20" NAME="dataValue">&nbsp;&nbsp;<INPUT TYPE="submit" NAME="action" VALUE="ADD SESSION DATA">    
 </FORM>
-<FORM ACTION="ClearSession.jsp" method="POST" name="Form2" >
-    <INPUT TYPE="submit" NAME="action" VALUE="CLEAR SESSION">
-</FORM>
+
 
 <%
     String dataname = request.getParameter("dataName");
@@ -48,6 +59,9 @@
 %>
 <HR><BR>
 <B>Data retrieved from the HttpSession: </B>
+<FORM ACTION="ClearSession.jsp" method="POST" name="Form2" >
+    <INPUT TYPE="submit" NAME="action" VALUE="CLEAR SESSION">
+</FORM>
 <% 
     java.util.Enumeration valueNames = session.getAttributeNames();
     if (!valueNames.hasMoreElements()) {

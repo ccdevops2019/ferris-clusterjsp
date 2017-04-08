@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-copy-to-downloads</actionName>
+            <displayName>copy-to-downloads</displayName>
+            <goals>
+                <goal>clean</goal>
+                <goal>verify</goal>
+            </goals>
+            <activatedProfiles>
+                <activatedProfile>copy-to-downloads</activatedProfile>
+            </activatedProfiles>
+        </action>
+    </actions>
