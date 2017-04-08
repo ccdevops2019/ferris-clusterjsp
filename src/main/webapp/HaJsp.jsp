@@ -12,9 +12,23 @@
 <BODY BGCOLOR="white">
 <H1>Cluster - HA JSP Sample </H1>
 
-<FORM ACTION="HaJsp.jsp" method="get" name="Form3" >
-    <INPUT TYPE="submit" NAME="action" VALUE="RELOAD PAGE">
-</FORM>
+<TABLE>
+    <TR>
+        <TD>
+            <FORM ACTION="HaJsp.jsp" method="POST" name="Form3" >
+                <INPUT TYPE="submit" NAME="action" VALUE="RELOAD PAGE (POST)">
+            </FORM>
+        </TD>
+        <TD>
+            <FORM ACTION="HaJsp.jsp" method="GET" name="Form3" >
+                <INPUT TYPE="submit" NAME="action" VALUE="RELOAD PAGE (GET)">
+            </FORM>
+        </TD>
+    </TR>
+</TABLE>   
+
+
+<br />
 <B>HttpSession Information:</B>
 <UL>
 <LI>Context Path:   <b><%= request.getContextPath() %></b></LI>    
